@@ -11,15 +11,15 @@ body {
   padding: 0 20px;
 }
 
-.reposContainer {
+.repositoryContainer {
   width: 500px;
 }
-.repos__item {
+.repository__item {
   display: flex;
   justify-content: space-between;
 }
 
-.reposContainer li {
+.repositoryContainer li {
   position: relative;
   overflow: hidden;
   list-style: none;

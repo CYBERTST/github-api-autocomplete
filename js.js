@@ -1,16 +1,16 @@
 const URL = "https://api.github.com/search/repositories";
 
 const searchWrapper = document.querySelector(".search-input");
-const inputBox = searchWrapper.querySelector("#repoInput");
-const suggBox = searchWrapper.querySelector(".autocom-box");
-const suggList = document.querySelector(".repos");
+const inputBox = searchWrapper.querySelector("#repositoryInput");
+const suggestionBox = searchWrapper.querySelector(".autocom-box");
+const suggestionList = document.querySelector(".repository");
 
-inputBox.addEventListener("keyup", debounce(loadRepos, 500));
+inputBox.addEventListener("keyup", debounce(loadRepository, 500));
 
-suggBox.addEventListener("click", function (event) {
+suggestionBox.addEventListener("click", function (event) {
   const li = event.target;
-  const repoElement = createElementHepler("li", "repos__item");
-  suggList.append(repoElement);
+  const repoElement = createElementHepler("li", "repository__item");
+  suggestionList.append(repoElement);
 
   const textColumn = createElementHepler("div", "text-container");
   const textLineName = createElementHepler("div", "text-line-name");
@@ -28,35 +28,35 @@ suggBox.addEventListener("click", function (event) {
   const buttonClose = createElementHepler("button", "close-icon");
   repoElement.append(buttonClose);
   inputBox.value = "";
-  suggBox.replaceChildren();
+  suggestionBox.replaceChildren();
 });
 
-suggList.addEventListener("click", function (event) {
+suggestionList.addEventListener("click", function (event) {
   const btn = event.target.closest(".close-icon");
   if (btn) {
-    const card = btn.closest(".repos__item");
+    const card = btn.closest(".repository__item");
     card.remove();
   }
 });
 
-function loadRepos() {
+function loadRepository() {
   if (inputBox.value) {
-    suggBox.replaceChildren();
-    reposRequest(inputBox.value);
+    suggestionBox.replaceChildren();
+    repositoryRequest(inputBox.value);
     searchWrapper.classList.add("active");
   } else {
-    suggBox.replaceChildren();
+    suggestionBox.replaceChildren();
     searchWrapper.classList.remove("active");
   }
 }
 
-async function reposRequest(searchValue) {
-  let repos;
+async function repositoryRequest(searchValue) {
+  let repository;
   try {
     const res = await fetch(`${URL}?q=${searchValue}&per_page=5&page=1`);
     const data = await res.json();
-    repos = data.items;
-    repos.forEach((repo) => {
+    repository = data.items;
+    repository.forEach((repo) => {
       createItem(repo);
     });
   } catch (error) {
@@ -70,7 +70,7 @@ function createItem(repo) {
   element.dataset.owner = repo.owner.login;
   element.dataset.stars = repo.stargazers_count;
 
-  suggBox.insertAdjacentElement("beforeend", element);
+  suggestionBox.insertAdjacentElement("beforeend", element);
 }
 
 function createElementHepler(elementTag, elementClass) {
