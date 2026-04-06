@@ -12,12 +12,14 @@ function loadRepository() {
 async function repositoryRequest(searchValue) {
   let repository;
   try {
-    const res = await fetch(`${URL}?q=${searchValue}&per_page=5&page=1`);
-    const data = await res.json();
-    repository = data.items;
-    repository.forEach((repo) => {
-      createItem(repo);
-    });
+    if (searchValue.trim()) {
+      const res = await fetch(`${URL}?q=${searchValue}&per_page=5&page=1`);
+      const data = await res.json();
+      repository = data.items;
+      repository.forEach((repo) => {
+        createItem(repo);
+      });
+    }
   } catch (error) {
     console.log("Error: " + error);
   }
